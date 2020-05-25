@@ -5,7 +5,7 @@ const https = require('https')
 
 // NOTE: These tests can be used to test student assignments by modifying the REMOTE_API_URL value below
 //const REMOTE_API_URL = `http://localhost:3000`
-const REMOTE_API_URL = `http://131.181.190.87:3000`
+const REMOTE_API_URL = `http://131.181.190.87:3005`
 const EMAIL = `${uuid()}@fake-email.com`
 const PASSWORD = 'webcomputing'
 let TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV4YW1wbGVAYXBpLmNvbSIsImV4cCI6MTU5MDM5NTcxNCwiaWF0IjoxNTkwMzA5MzE0fQ.SO5yeffhRmImxfa9TolnLGXQgYkN4PPd3ewYf2j1H68";
@@ -39,7 +39,7 @@ describe('all stock (with filtering)', () => {
     })
 
     test('should return status code 404', () => expect(response.status).toBe(404))
-    test('should return status text not found', () => expect(response.statusText).toBe('Not found'))
+    test('should return status text not found', () => expect(response.statusText).toBe('Not Found'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
@@ -80,15 +80,13 @@ describe('specific stocks', () => {
   describe('Invalid Query Parameter(s)', () => {
 
     beforeAll(async () => {
-      const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/AAL?date=2020-03-23T14:00:00.000Z`))
+      const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/AAL?from=2020-03-13T00:00:00.000Z&to=2020-03-20T00:00:00.000Z`))
       return response = request.resolve ? request.resolve : request.reject.response
     })
 
-    //THIS IS JUST RETURNING 200 FROM THE SERVER?
-
-    //test('should return status code 400', () => expect(response.status).toBe(400))
-    //test('should return status text Invalid query parameter(s)', () => expect(response.statusText).toBe('Invalid query parameter(s)'))
-    //test('should contain message property', () => expect(response.data).toHaveProperty('message'))
+    test('should return status code 400', () => expect(response.status).toBe(400))
+    test('should return status text Bad Request', () => expect(response.statusText).toBe('Bad Request'))
+    test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
   describe('No entries', () => {
@@ -118,6 +116,9 @@ describe('specific stocks', () => {
     test('should contain timestamp property', () => expect(response.data.timestamp).toBe("2020-03-23T14:00:00.000Z"))
     test('should contain open property', () => expect(response.data.open).toBe(10.9))
     test('should contain high property', () => expect(response.data.high).toBe(11.36))
+    test('should contain low property', () => expect(response.data.low).toBe(10.01))
+    test('should contain close property', () => expect(response.data.close).toBe(10.25))
+    test('should contain volumes property', () => expect(response.data.volumes).toBe(55494100))
 
   })
 })
@@ -286,9 +287,23 @@ describe('authed specific stocks', () => {
 
     test('should return status code 200', () => expect(response.status).toBe(200))
     test('should return status text ok', () => expect(response.statusText).toBe('OK'))
-    test('should contain correct first date', () => expect(response.data[0].timestamp).toBe(`2020-03-19T14:00:00.000Z`))
+    test('should contain correct -to- date', () => expect(response.data[0].timestamp).toBe(`2020-03-19T14:00:00.000Z`))
     test('should contain correct symbol', () => expect(response.data[0].symbol).toBe('AAL'))
-    test('should contain correct first date', () => expect(response.data[response.data.length-1].timestamp).toBe(`2020-03-15T14:00:00.000Z`))
+    test('should contain name property', () => expect(response.data[0].name).toBe("American Airlines Group"))
+    test('should contain industry property', () => expect(response.data[0].industry).toBe("Industrials"))
+    test('should contain open property', () => expect(response.data[0].open).toBe(11.6))
+    test('should contain high property', () => expect(response.data[0].high).toBe(12.16))
+    test('should contain low property', () => expect(response.data[0].low).toBe(10.01))
+    test('should contain close property', () => expect(response.data[0].close).toBe(10.29))
+    test('should contain volumes property', () => expect(response.data[0].volumes).toBe(71584500))
+    test('should contain correct -from- date', () => expect(response.data[response.data.length-1].timestamp).toBe(`2020-03-15T14:00:00.000Z`))
     test('should contain correct symbol', () => expect(response.data[response.data.length-1].symbol).toBe('AAL'))
+    test('should contain name property', () => expect(response.data[response.data.length-1].name).toBe("American Airlines Group"))
+    test('should contain industry property', () => expect(response.data[response.data.length-1].industry).toBe("Industrials"))
+    test('should contain open property', () => expect(response.data[response.data.length-1].open).toBe(15.3))
+    test('should contain high property', () => expect(response.data[response.data.length-1].high).toBe(15.6))
+    test('should contain low property', () => expect(response.data[response.data.length-1].low).toBe(13.12))
+    test('should contain close property', () => expect(response.data[response.data.length-1].close).toBe(14.31))
+    test('should contain volumes property', () => expect(response.data[response.data.length-1].volumes).toBe(58376100))
   })
 })
