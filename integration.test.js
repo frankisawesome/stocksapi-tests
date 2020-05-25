@@ -1,14 +1,21 @@
+/**
+ * Install dependencies before you attempt to run the tests!!
+ * ****** run npm i in termnal, under this directory *****
+ * Start your server before running the test
+ * run npm test when you are ready
+ * A report will be automatically generated under this directory
+ */
 const axios = require('axios')
 const uuid = require('uuid/v4')
 const to = require('./lib/to')
 const https = require('https')
 
-// NOTE: These tests can be used to test student assignments by modifying the REMOTE_API_URL value below
-//const REMOTE_API_URL = `http://localhost:3000`
-const REMOTE_API_URL = `http://131.181.190.87:3005`
+
+//If you are serving your server on any port other than 3000, change the port here, or alternatively change the url to approriate 
+const REMOTE_API_URL = `http://localhost:3000`
 const EMAIL = `${uuid()}@fake-email.com`
 const PASSWORD = 'webcomputing'
-let TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV4YW1wbGVAYXBpLmNvbSIsImV4cCI6MTU5MDM5NTcxNCwiaWF0IjoxNTkwMzA5MzE0fQ.SO5yeffhRmImxfa9TolnLGXQgYkN4PPd3ewYf2j1H68";
+let TOKEN = ''
 
 https.globalAgent.options.rejectUnauthorized = false;
 const instance = axios.create({
@@ -17,9 +24,9 @@ const instance = axios.create({
   })
 });
 
-describe('all stock (with filtering)', () => {
+describe('stock symbols', () => {
 
-  describe('Invalid Query Parameter', () => {
+  describe('with invalid query parameter', () => {
 
     beforeAll(async () => {
       const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/symbols?name=a`))
@@ -31,7 +38,7 @@ describe('all stock (with filtering)', () => {
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
-  describe('Industry sector not found', () => {
+  describe('with false industry', () => {
 
     beforeAll(async () => {
       const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/symbols?industry=an_industry_that_doesn't exist`))
@@ -43,7 +50,7 @@ describe('all stock (with filtering)', () => {
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
-  describe('Valid response without filtering', () => {
+  describe('with no parameter', () => {
 
     beforeAll(async () => {
       const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/symbols`))
@@ -58,7 +65,7 @@ describe('all stock (with filtering)', () => {
 
   })
 
-  describe('Valid response with filtering', () => {
+  describe('with valid query parameter', () => {
 
     beforeAll(async () => {
       const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/symbols?industry=d`))
@@ -77,7 +84,7 @@ describe('all stock (with filtering)', () => {
 
 describe('specific stocks', () => {
 
-  describe('Invalid Query Parameter(s)', () => {
+  describe('with invalid query parameters', () => {
 
     beforeAll(async () => {
       const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/AAL?from=2020-03-13T00:00:00.000Z&to=2020-03-20T00:00:00.000Z`))
@@ -89,7 +96,7 @@ describe('specific stocks', () => {
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
-  describe('No entries', () => {
+  describe('with unknown stock symbol', () => {
 
     beforeAll(async () => {
       const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/AALA`))
@@ -101,7 +108,7 @@ describe('specific stocks', () => {
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
-  describe('Correct', () => {
+  describe('with a correctly formatted parameter', () => {
 
     beforeAll(async () => {
       const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/AAL`))
@@ -130,8 +137,6 @@ describe('user', () => {
         const request = await to.object(instance.post(`${REMOTE_API_URL}/user/register`, { password: PASSWORD }))
         return response = request.resolve ? request.resolve : request.reject.response
       })
-
-      // test('should print response debug message', () => console.log(response))
       test('should return status code 400', () => expect(response.status).toBe(400))
       test('should return status text Bad Request', () => expect(response.statusText).toBe('Bad Request'))
       test('should contain message property', () => expect(response.data).toHaveProperty('message'))
@@ -142,8 +147,6 @@ describe('user', () => {
         const request = await to.object(instance.post(`${REMOTE_API_URL}/user/register`, { email: EMAIL }))
         return response = request.resolve ? request.resolve : request.reject.response
       })
-
-      // test('should print response debug message', () => console.log(response))
       test('should return status code 400', () => expect(response.status).toBe(400))
       test('should return status text Bad Request', () => expect(response.statusText).toBe('Bad Request'))
       test('should contain message property', () => expect(response.data).toHaveProperty('message'))
@@ -154,8 +157,6 @@ describe('user', () => {
         const request = await to.object(instance.post(`${REMOTE_API_URL}/user/register`, {}))
         return response = request.resolve ? request.resolve : request.reject.response
       })
-
-      // test('should print response debug message', () => console.log(response))
       test('should return status code 400', () => expect(response.status).toBe(400))
       test('should return status text Bad Request', () => expect(response.statusText).toBe('Bad Request'))
       test('should contain message property', () => expect(response.data).toHaveProperty('message'))
@@ -167,7 +168,6 @@ describe('user', () => {
         return response = request.resolve ? request.resolve : request.reject.response
       })
 
-      // test('should print response debug message', () => console.log(response))
       test('should return status code 201', () => expect(response.status).toBe(201))
       test('should return status text Created', () => expect(response.statusText).toBe('Created'))
       test('should contain message property', () => expect(response.data).toHaveProperty('message'))
@@ -181,8 +181,6 @@ describe('login', () => {
       const request = await to.object(instance.post(`${REMOTE_API_URL}/user/login`, { password: PASSWORD }))
       return response = request.resolve ? request.resolve : request.reject.response
     })
-
-    // test('should print response debug message', () => console.log(response))
     test('should return status code 400', () => expect(response.status).toBe(400))
     test('should return status text Created', () => expect(response.statusText).toBe('Bad Request'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
@@ -193,8 +191,6 @@ describe('login', () => {
       const request = await to.object(instance.post(`${REMOTE_API_URL}/user/login`, { email: EMAIL }))
       return response = request.resolve ? request.resolve : request.reject.response
     })
-
-    // test('should print response debug message', () => console.log(response))
     test('should return status code 400', () => expect(response.status).toBe(400))
     test('should return status text Created', () => expect(response.statusText).toBe('Bad Request'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
@@ -206,7 +202,6 @@ describe('login', () => {
       return response = request.resolve ? request.resolve : request.reject.response
     })
 
-    // test('should print response debug message', () => console.log(response))
     test('should return status code 401', () => expect(response.status).toBe(401))
     test('should return status text Created', () => expect(response.statusText).toBe('Unauthorized'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
@@ -218,7 +213,6 @@ describe('login', () => {
       return response = request.resolve ? request.resolve : request.reject.response
     })
 
-    // test('should print response debug message', () => console.log(response))
     test('should return status code 401', () => expect(response.status).toBe(401))
     test('should return status text Created', () => expect(response.statusText).toBe('Unauthorized'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
@@ -230,7 +224,6 @@ describe('login', () => {
       return response = request.resolve ? request.resolve : request.reject.response
     })
 
-    // test('should print response debug message', () => console.log(response))
     test('should return status code 200', () => expect(response.status).toBe(200))
     test('should return status text Created', () => expect(response.statusText).toBe('OK'))
     test('should contain token property', () => expect(response.data).toHaveProperty('token'))
@@ -241,12 +234,18 @@ describe('login', () => {
   })
 })
 
-describe('authed specific stocks', () => {
-
-  describe('invalid paramaters/data format', () => {
+describe('authorised route', () => {
+  beforeAll(async () => {
+    const login = await axios.post(`${REMOTE_API_URL}/user/login`, {
+      email: EMAIL,
+      password: PASSWORD
+    })
+    TOKEN = login.data.token
+  })
+  describe('with invalid paramaters/data format', () => {
     beforeAll(async () => {
-      const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/authed/AAL?begin=2020-03-15T00%3A00%3A00.000Z&until=2020-03-20T00%3A00%3A00.000Z`, 
-      {headers: { Authorization: `Bearer ${TOKEN}`}}))
+      const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/authed/AAL?begin=2020-03-15T00%3A00%3A00.000Z&until=2020-03-20T00%3A00%3A00.000Z`,
+        { headers: { Authorization: `Bearer ${TOKEN}` } }))
       return response = request.resolve ? request.resolve : request.reject.response
     })
 
@@ -255,7 +254,7 @@ describe('authed specific stocks', () => {
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
-  describe('access denied', () => {
+  describe('with no authorisation header', () => {
     beforeAll(async () => {
       const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/authed/AAL?from=2020-03-15T00%3A00%3A00.000Z&until=2020-03-20T00%3A00%3A00.000Z`))
       return response = request.resolve ? request.resolve : request.reject.response
@@ -266,10 +265,10 @@ describe('authed specific stocks', () => {
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
-  describe('Queried data not found', () => {
+  describe('with out of bounds dates', () => {
     beforeAll(async () => {
-      const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/authed/AAL?from=2020-04-15T00%3A00%3A00.000Z&to=2020-05-20T00%3A00%3A00.000Z`, 
-      {headers: { Authorization: `Bearer ${TOKEN}`}}))
+      const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/authed/AAL?from=2020-04-15T00%3A00%3A00.000Z&to=2020-05-20T00%3A00%3A00.000Z`,
+        { headers: { Authorization: `Bearer ${TOKEN}` } }))
       return response = request.resolve ? request.resolve : request.reject.response
     })
 
@@ -278,10 +277,10 @@ describe('authed specific stocks', () => {
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
-  describe('valid', () => {
+  describe('with correctly formated query and authorization header', () => {
     beforeAll(async () => {
-      const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/authed/AAL?from=2020-03-15T00%3A00%3A00.000Z&to=2020-03-20T00%3A00%3A00.000Z`, 
-      {headers: { Authorization: `Bearer ${TOKEN}`}}))
+      const request = await to.object(instance.get(`${REMOTE_API_URL}/stocks/authed/AAL?from=2020-03-15T00%3A00%3A00.000Z&to=2020-03-20T00%3A00%3A00.000Z`,
+        { headers: { Authorization: `Bearer ${TOKEN}` } }))
       return response = request.resolve ? request.resolve : request.reject.response
     })
 
@@ -296,14 +295,14 @@ describe('authed specific stocks', () => {
     test('should contain low property', () => expect(response.data[0].low).toBe(10.01))
     test('should contain close property', () => expect(response.data[0].close).toBe(10.29))
     test('should contain volumes property', () => expect(response.data[0].volumes).toBe(71584500))
-    test('should contain correct -from- date', () => expect(response.data[response.data.length-1].timestamp).toBe(`2020-03-15T14:00:00.000Z`))
-    test('should contain correct symbol', () => expect(response.data[response.data.length-1].symbol).toBe('AAL'))
-    test('should contain name property', () => expect(response.data[response.data.length-1].name).toBe("American Airlines Group"))
-    test('should contain industry property', () => expect(response.data[response.data.length-1].industry).toBe("Industrials"))
-    test('should contain open property', () => expect(response.data[response.data.length-1].open).toBe(15.3))
-    test('should contain high property', () => expect(response.data[response.data.length-1].high).toBe(15.6))
-    test('should contain low property', () => expect(response.data[response.data.length-1].low).toBe(13.12))
-    test('should contain close property', () => expect(response.data[response.data.length-1].close).toBe(14.31))
-    test('should contain volumes property', () => expect(response.data[response.data.length-1].volumes).toBe(58376100))
+    test('should contain correct -from- date', () => expect(response.data[response.data.length - 1].timestamp).toBe(`2020-03-15T14:00:00.000Z`))
+    test('should contain correct symbol', () => expect(response.data[response.data.length - 1].symbol).toBe('AAL'))
+    test('should contain name property', () => expect(response.data[response.data.length - 1].name).toBe("American Airlines Group"))
+    test('should contain industry property', () => expect(response.data[response.data.length - 1].industry).toBe("Industrials"))
+    test('should contain open property', () => expect(response.data[response.data.length - 1].open).toBe(15.3))
+    test('should contain high property', () => expect(response.data[response.data.length - 1].high).toBe(15.6))
+    test('should contain low property', () => expect(response.data[response.data.length - 1].low).toBe(13.12))
+    test('should contain close property', () => expect(response.data[response.data.length - 1].close).toBe(14.31))
+    test('should contain volumes property', () => expect(response.data[response.data.length - 1].volumes).toBe(58376100))
   })
 })
