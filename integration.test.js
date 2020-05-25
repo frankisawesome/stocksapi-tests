@@ -12,7 +12,7 @@ const https = require('https')
 
 
 //If you are serving your server on any port other than 3000, change the port here, or alternatively change the url to approriate 
-const REMOTE_API_URL = `http://localhost:3000`
+const REMOTE_API_URL = `http://131.181.190.87:3005`
 const EMAIL = `${uuid()}@fake-email.com`
 const PASSWORD = 'webcomputing'
 let TOKEN = ''
@@ -34,7 +34,7 @@ describe('stock symbols', () => {
     })
 
     test('should return status code 400', () => expect(response.status).toBe(400))
-    test('should return status text Bad Request', () => expect(response.statusText).toBe('Bad Request'))
+    test('should return status text - Bad Request', () => expect(response.statusText).toBe('Bad Request'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
@@ -46,7 +46,7 @@ describe('stock symbols', () => {
     })
 
     test('should return status code 404', () => expect(response.status).toBe(404))
-    test('should return status text not found', () => expect(response.statusText).toBe('Not Found'))
+    test('should return status text - Not Found', () => expect(response.statusText).toBe('Not Found'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
@@ -59,9 +59,9 @@ describe('stock symbols', () => {
 
     test('should return status code 200', () => expect(response.status).toBe(200))
     test('should return status OK', () => expect(response.statusText).toBe('OK'))
-    test('should contain first name property', () => expect(response.data[0].name).toBe("Agilent Technologies Inc"))
-    test('should contain first symbol property', () => expect(response.data[0].symbol).toBe("A"))
-    test('should contain first industry property', () => expect(response.data[0].industry).toBe("Health Care"))
+    test('should contain correct first name property', () => expect(response.data[0].name).toBe("Agilent Technologies Inc"))
+    test('should contain correct first symbol property', () => expect(response.data[0].symbol).toBe("A"))
+    test('should contain correct first industry property', () => expect(response.data[0].industry).toBe("Health Care"))
 
   })
 
@@ -74,9 +74,9 @@ describe('stock symbols', () => {
 
     test('should return status code 200', () => expect(response.status).toBe(200))
     test('should return status OK', () => expect(response.statusText).toBe('OK'))
-    test('should contain first name property', () => expect(response.data[0].name).toBe("American Airlines Group"))
-    test('should contain first symbol property', () => expect(response.data[0].symbol).toBe("AAL"))
-    test('should contain first industry property', () => expect(response.data[0].industry).toBe("Industrials"))
+    test('should contain correct first name property', () => expect(response.data[0].name).toBe("American Airlines Group"))
+    test('should contain correct first symbol property', () => expect(response.data[0].symbol).toBe("AAL"))
+    test('should contain correct first industry property', () => expect(response.data[0].industry).toBe("Industrials"))
 
   })
 
@@ -92,7 +92,7 @@ describe('specific stocks', () => {
     })
 
     test('should return status code 400', () => expect(response.status).toBe(400))
-    test('should return status text Bad Request', () => expect(response.statusText).toBe('Bad Request'))
+    test('should return status text - Bad Request', () => expect(response.statusText).toBe('Bad Request'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
@@ -104,7 +104,7 @@ describe('specific stocks', () => {
     })
 
     test('should return status code 404', () => expect(response.status).toBe(404))
-    test('should return status text not found', () => expect(response.statusText).toBe('Not Found'))
+    test('should return status text - Not Found', () => expect(response.statusText).toBe('Not Found'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
@@ -117,15 +117,15 @@ describe('specific stocks', () => {
 
     test('should return status code 200', () => expect(response.status).toBe(200))
     test('should return status OK', () => expect(response.statusText).toBe('OK'))
-    test('should contain name property', () => expect(response.data.name).toBe("American Airlines Group"))
-    test('should contain symbol property', () => expect(response.data.symbol).toBe("AAL"))
-    test('should contain industry property', () => expect(response.data.industry).toBe("Industrials"))
-    test('should contain timestamp property', () => expect(response.data.timestamp).toBe("2020-03-23T14:00:00.000Z"))
-    test('should contain open property', () => expect(response.data.open).toBe(10.9))
-    test('should contain high property', () => expect(response.data.high).toBe(11.36))
-    test('should contain low property', () => expect(response.data.low).toBe(10.01))
-    test('should contain close property', () => expect(response.data.close).toBe(10.25))
-    test('should contain volumes property', () => expect(response.data.volumes).toBe(55494100))
+    test('should contain correct name property', () => expect(response.data.name).toBe("American Airlines Group"))
+    test('should contain correct symbol property', () => expect(response.data.symbol).toBe("AAL"))
+    test('should contain correct industry property', () => expect(response.data.industry).toBe("Industrials"))
+    test('should contain correct timestamp property', () => expect(response.data.timestamp).toBe("2020-03-23T14:00:00.000Z"))
+    test('should contain correct open property', () => expect(response.data.open).toBe(10.9))
+    test('should contain correct high property', () => expect(response.data.high).toBe(11.36))
+    test('should contain correct low property', () => expect(response.data.low).toBe(10.01))
+    test('should contain correct close property', () => expect(response.data.close).toBe(10.25))
+    test('should contain correct volumes property', () => expect(response.data.volumes).toBe(55494100))
 
   })
 })
@@ -138,7 +138,7 @@ describe('user', () => {
         return response = request.resolve ? request.resolve : request.reject.response
       })
       test('should return status code 400', () => expect(response.status).toBe(400))
-      test('should return status text Bad Request', () => expect(response.statusText).toBe('Bad Request'))
+      test('should return status text - Bad Request', () => expect(response.statusText).toBe('Bad Request'))
       test('should contain message property', () => expect(response.data).toHaveProperty('message'))
     })
 
@@ -148,7 +148,7 @@ describe('user', () => {
         return response = request.resolve ? request.resolve : request.reject.response
       })
       test('should return status code 400', () => expect(response.status).toBe(400))
-      test('should return status text Bad Request', () => expect(response.statusText).toBe('Bad Request'))
+      test('should return status text - Bad Request', () => expect(response.statusText).toBe('Bad Request'))
       test('should contain message property', () => expect(response.data).toHaveProperty('message'))
     })
 
@@ -158,7 +158,7 @@ describe('user', () => {
         return response = request.resolve ? request.resolve : request.reject.response
       })
       test('should return status code 400', () => expect(response.status).toBe(400))
-      test('should return status text Bad Request', () => expect(response.statusText).toBe('Bad Request'))
+      test('should return status text - Bad Request', () => expect(response.statusText).toBe('Bad Request'))
       test('should contain message property', () => expect(response.data).toHaveProperty('message'))
     })
 
@@ -169,7 +169,7 @@ describe('user', () => {
       })
 
       test('should return status code 201', () => expect(response.status).toBe(201))
-      test('should return status text Created', () => expect(response.statusText).toBe('Created'))
+      test('should return status text - Created', () => expect(response.statusText).toBe('Created'))
       test('should contain message property', () => expect(response.data).toHaveProperty('message'))
     })
   })
@@ -182,7 +182,7 @@ describe('login', () => {
       return response = request.resolve ? request.resolve : request.reject.response
     })
     test('should return status code 400', () => expect(response.status).toBe(400))
-    test('should return status text Created', () => expect(response.statusText).toBe('Bad Request'))
+    test('should return status text - Created', () => expect(response.statusText).toBe('Bad Request'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
@@ -192,7 +192,7 @@ describe('login', () => {
       return response = request.resolve ? request.resolve : request.reject.response
     })
     test('should return status code 400', () => expect(response.status).toBe(400))
-    test('should return status text Created', () => expect(response.statusText).toBe('Bad Request'))
+    test('should return status text - Created', () => expect(response.statusText).toBe('Bad Request'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
@@ -203,7 +203,7 @@ describe('login', () => {
     })
 
     test('should return status code 401', () => expect(response.status).toBe(401))
-    test('should return status text Created', () => expect(response.statusText).toBe('Unauthorized'))
+    test('should return status text - Created', () => expect(response.statusText).toBe('Unauthorized'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
@@ -214,7 +214,7 @@ describe('login', () => {
     })
 
     test('should return status code 401', () => expect(response.status).toBe(401))
-    test('should return status text Created', () => expect(response.statusText).toBe('Unauthorized'))
+    test('should return status text - Created', () => expect(response.statusText).toBe('Unauthorized'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
@@ -225,7 +225,7 @@ describe('login', () => {
     })
 
     test('should return status code 200', () => expect(response.status).toBe(200))
-    test('should return status text Created', () => expect(response.statusText).toBe('OK'))
+    test('should return status text - OK', () => expect(response.statusText).toBe('OK'))
     test('should contain token property', () => expect(response.data).toHaveProperty('token'))
     test('should contain token_type property', () => expect(response.data).toHaveProperty('token_type'))
     test('should contain expires_in property', () => expect(response.data).toHaveProperty('expires_in'))
@@ -250,7 +250,7 @@ describe('authorised route', () => {
     })
 
     test('should return status code 400', () => expect(response.status).toBe(400))
-    test('should return status text Bad Request', () => expect(response.statusText).toBe('Bad Request'))
+    test('should return status text - Bad Request', () => expect(response.statusText).toBe('Bad Request'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
@@ -261,7 +261,7 @@ describe('authorised route', () => {
     })
 
     test('should return status code 403', () => expect(response.status).toBe(403))
-    test('should return status text forbidden', () => expect(response.statusText).toBe('Forbidden'))
+    test('should return status text - Forbidden', () => expect(response.statusText).toBe('Forbidden'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
@@ -273,7 +273,7 @@ describe('authorised route', () => {
     })
 
     test('should return status code 404', () => expect(response.status).toBe(404))
-    test('should return status text not found', () => expect(response.statusText).toBe('Not Found'))
+    test('should return status text - Not Found', () => expect(response.statusText).toBe('Not Found'))
     test('should contain message property', () => expect(response.data).toHaveProperty('message'))
   })
 
@@ -285,24 +285,24 @@ describe('authorised route', () => {
     })
 
     test('should return status code 200', () => expect(response.status).toBe(200))
-    test('should return status text ok', () => expect(response.statusText).toBe('OK'))
+    test('should return status text - OK', () => expect(response.statusText).toBe('OK'))
     test('should contain correct -to- date', () => expect(response.data[0].timestamp).toBe(`2020-03-19T14:00:00.000Z`))
-    test('should contain correct symbol', () => expect(response.data[0].symbol).toBe('AAL'))
-    test('should contain name property', () => expect(response.data[0].name).toBe("American Airlines Group"))
-    test('should contain industry property', () => expect(response.data[0].industry).toBe("Industrials"))
-    test('should contain open property', () => expect(response.data[0].open).toBe(11.6))
-    test('should contain high property', () => expect(response.data[0].high).toBe(12.16))
-    test('should contain low property', () => expect(response.data[0].low).toBe(10.01))
-    test('should contain close property', () => expect(response.data[0].close).toBe(10.29))
-    test('should contain volumes property', () => expect(response.data[0].volumes).toBe(71584500))
+    test('should contain correct -to- symbol', () => expect(response.data[0].symbol).toBe('AAL'))
+    test('should contain correct -to- name property', () => expect(response.data[0].name).toBe("American Airlines Group"))
+    test('should contain correct -to- industry property', () => expect(response.data[0].industry).toBe("Industrials"))
+    test('should contain correct -to- open property', () => expect(response.data[0].open).toBe(11.6))
+    test('should contain correct -to- high property', () => expect(response.data[0].high).toBe(12.16))
+    test('should contain correct -to- low property', () => expect(response.data[0].low).toBe(10.01))
+    test('should contain correct -to- close property', () => expect(response.data[0].close).toBe(10.29))
+    test('should contain correct -to- volumes property', () => expect(response.data[0].volumes).toBe(71584500))
     test('should contain correct -from- date', () => expect(response.data[response.data.length - 1].timestamp).toBe(`2020-03-15T14:00:00.000Z`))
-    test('should contain correct symbol', () => expect(response.data[response.data.length - 1].symbol).toBe('AAL'))
-    test('should contain name property', () => expect(response.data[response.data.length - 1].name).toBe("American Airlines Group"))
-    test('should contain industry property', () => expect(response.data[response.data.length - 1].industry).toBe("Industrials"))
-    test('should contain open property', () => expect(response.data[response.data.length - 1].open).toBe(15.3))
-    test('should contain high property', () => expect(response.data[response.data.length - 1].high).toBe(15.6))
-    test('should contain low property', () => expect(response.data[response.data.length - 1].low).toBe(13.12))
-    test('should contain close property', () => expect(response.data[response.data.length - 1].close).toBe(14.31))
-    test('should contain volumes property', () => expect(response.data[response.data.length - 1].volumes).toBe(58376100))
+    test('should contain correct -from- symbol', () => expect(response.data[response.data.length - 1].symbol).toBe('AAL'))
+    test('should contain correct -from- name property', () => expect(response.data[response.data.length - 1].name).toBe("American Airlines Group"))
+    test('should contain correct -from- industry property', () => expect(response.data[response.data.length - 1].industry).toBe("Industrials"))
+    test('should contain correct -from- open property', () => expect(response.data[response.data.length - 1].open).toBe(15.3))
+    test('should contain correct -from- high property', () => expect(response.data[response.data.length - 1].high).toBe(15.6))
+    test('should contain correct -from- low property', () => expect(response.data[response.data.length - 1].low).toBe(13.12))
+    test('should contain correct -from- close property', () => expect(response.data[response.data.length - 1].close).toBe(14.31))
+    test('should contain correct -from- volumes property', () => expect(response.data[response.data.length - 1].volumes).toBe(58376100))
   })
 })
