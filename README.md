@@ -1,6 +1,6 @@
 qut-cab230-teaching
 
-## Intergration Tests
+## Integration Tests
 
 ```bash
 npm install
