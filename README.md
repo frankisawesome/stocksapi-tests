@@ -18,7 +18,7 @@ const REMOTE_API_URL = `http://localhost:3000`
 
 ## After each run
 
-After each run, you will see output on the screen, but if there are a number of errors you will find it easier to browse the `report.html` file which will appear in the top directory. This will give you a good idea of how your server is behaving. Ideally you'd want to see all 93 tests passing. If you aren't sure what is going wrong, have a look at the messages and then dig directly into the code itself - the file `integration.tests.js`.  If you are unsure of the behaviour, look at the Swagger or hit the endpoint with postman to debug. 
+After each run, you will see output on the screen, but if there are a number of errors you will find it easier to browse the `report.html` file which will appear in the top directory. This will give you a good idea of how your server is behaving. Ideally you'd want to see all 93 tests passing. If you aren't sure what is going wrong, have a look at the messages and then dig directly into the code itself - the file `integration.tests.js`.  If you are unsure of the behaviour, look at the Swagger or hit the endpoint with postman to debug. An example version of this file - `example.html` - may be found in the top directory. 
 
 ## Some more detail
 
